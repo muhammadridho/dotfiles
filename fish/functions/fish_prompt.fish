@@ -1,0 +1,1 @@
+/Users/ridho/.local/share/omf/themes/l/fish_prompt.fish
