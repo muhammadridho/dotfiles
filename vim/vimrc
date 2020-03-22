@@ -1,0 +1,174 @@
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+Plug 'junegunn/vim-easy-align'
+Plug 'scrooloose/nerdtree'
+
+" Languange Plugin
+Plug 'elixir-editors/vim-elixir'
+Plug 'fatih/vim-go'
+Plug 'reasonml-editor/vim-reason-plus'
+Plug 'airblade/vim-gitgutter'
+Plug 'morhetz/gruvbox'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Display / Theme
+Plug 'ryanoasis/vim-devicons'
+
+" End Initialize plugin system"
+call plug#end()
+
+" ============================================================================
+" GLOBAL CONFIGURATION
+" ============================================================================
+" enable syntax highlighting (previously syntax on).
+syntax enable
+
+" set the window’s title, reflecting the file currently being edited.
+set title
+
+" Use an encoding that supports Unicode.
+set encoding=utf-8
+
+" show the line number
+set number
+
+" show cursor line
+set cursorline
+
+" Always show cursor position.
+set ruler
+
+" when scrolling, keep cursor 5 lines away from screen border
+set scrolloff=5
+
+" show the tab bar
+set showtabline=2
+
+" makes copy and paste work better
+set clipboard=unnamedplus
+
+" automatic indentation
+set autoindent
+set smartindent
+
+" use spaces instead of tabs
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+
+" place a vertical line as a marker for maximum prescribed text width
+" set textwidth=79
+" set colorcolumn=+1
+
+" use tabs at the start of a line, spaces elsewhere
+set smarttab
+
+" don't wrap text
+set nowrap
+
+" don't fold code
+set nofoldenable
+
+" make completion smarter.
+set ignorecase
+set smartcase
+
+" Automatically re-open files after they have changed without prompting.
+set autoread
+
+" disable beep on errors.
+set noerrorbells
+
+" [DISABLED] flash the screen instead of beeping on errors.
+set novisualbell
+set termguicolors
+
+" needed so deoplete can auto select the first suggestion
+set completeopt+=noinsert
+" comment this line to enable autocompletion preview window
+" (displays documentation related to the selected completion option)
+set completeopt-=preview
+
+" autocompletion of files and commands behaves like shell
+" (complete only the common part, list the options that match)
+set wildmode=list:longest
+
+" fix problems with uncommon shells (fish, xonsh) and plugins running commands
+" (neomake, ...)
+set shell=/bin/bash
+
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Better display for messages
+set cmdheight=2
+
+" Smaller updatetime for CursorHold & CursorHoldI
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" enable mouse
+set mouse=a
+
+" Plugin - VIM DevIcons
+set guifont=FiraCode\ Nerd\ Font:h11
+" Theme and Colorscheme
+colorscheme gruvbox
+
+
+" Show hidden files
+let NERDTreeShowHidden=1
+
+hi xmlAttrib cterm=italic ctermfg=214
+
+" Auto open NERDTree in vim
+function! StartUp()
+    if 0 == argc()
+        NERDTree
+    end
+endfunction
+
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" coc config
+let g:coc_global_extensions = [
+  \ 'coc-snippets',
+  \ 'coc-pairs',
+  \ 'coc-tsserver',
+  \ 'coc-eslint', 
+  \ 'coc-prettier', 
+  \ 'coc-json', 
+  \ ]
+" from readme
+" if hidden is not set, TextEdit might fail.
+set hidden " Some servers have issues with backup files, see #649 set nobackup set nowritebackup " Better display for messages set cmdheight=2 " You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+autocmd VimEnter * call StartUp()
